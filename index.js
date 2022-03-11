@@ -55,12 +55,9 @@ app.get('/', async (req, res) => {
             });
     
             for (let i = 0; i < 2; i++) {
-                embeds.push({
+                let embed = {
                     "title": data.value[i].name,
                     "description": data.value[i].description,
-                    "thumbnail": {
-                        "url": data.value[i].image.thumbnail.contentUrl,
-                    },
                     "fields": [
                         {
                             "name": "Full Article",
@@ -74,7 +71,16 @@ app.get('/', async (req, res) => {
                         }
                     ],
                     "color": sector.color,
-                })
+                }
+                if(data.value[i].image){
+                    embed = {
+                        ...embed,
+                        "thumbnail": {
+                            "url": data.value[i].image.thumbnail.contentUrl,
+                        },
+                    }
+                }
+                embeds.push(embed)
             }
         }, i * 1000)
     })
