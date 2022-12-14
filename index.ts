@@ -25,7 +25,7 @@ const sectors = [
     },
 ]
 
-app.get('/', async (req, res) => {
+app.get('/', async (_req, res) => {
 
     const embeds = [];
 
@@ -55,7 +55,7 @@ app.get('/', async (req, res) => {
             });
     
             for (let i = 0; i < 2; i++) {
-                let embed = {
+                let embed: any = {
                     "title": data.value[i].name,
                     "description": data.value[i].description,
                     "fields": [
@@ -95,8 +95,7 @@ app.get('/', async (req, res) => {
             .catch(err => console.log(err.code))
     }, 20000)
 
-
-    res.send({ message: 'Select the news type' })
+    res.json({ message: 'Select the news type' })
 })
 
 app.listen(PORT, () => {
