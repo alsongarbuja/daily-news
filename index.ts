@@ -1,7 +1,7 @@
 
 const PORT = process.env.PORT || 8000
 
-require('dotenv').config()
+require('dotenv').config({ path: '../.env' })
 const express = require('express')
 const axios = require('axios').default
 const app = express()
@@ -33,17 +33,15 @@ app.get('/', async (_req, res) => {
         setTimeout(async () => {
             const options = {
                 method: 'GET',
-                url: 'https://bing-news-search1.p.rapidapi.com/news/search',
+                url: 'https://free-news.p.rapidapi.com/v1/search',
                 params: {
                   q: sector.param,
-                  count: '2',
-                  freshness: 'Day',
-                  textFormat: 'Raw',
-                  safeSearch: 'Moderate'
+                  page: 1,
+                  page_size: 2,
+                  lang: 'en',
                 },
                 headers: {
-                  'x-bingapis-sdk': 'true',
-                  'x-rapidapi-host': 'bing-news-search1.p.rapidapi.com',
+                  'x-rapidapi-host': 'free-news.p.rapidapi.com',
                   'x-rapidapi-key': process.env.RAPID_API_KEY,
                 }
             };
@@ -56,33 +54,33 @@ app.get('/', async (_req, res) => {
     
             for (let i = 0; i < 2; i++) {
                 let embed: any = {
-                    "title": data.value[i].name,
-                    "description": data.value[i].description,
+                    "title": data.articles[i].title,
+                    "description": data.articles[i].summary.slice(0, 100),
                     "fields": [
                         {
                             "name": "Full Article",
-                            "value": `[here](${data.value[i].url})`,
+                            "value": `[here](${data.articles[i].link})`,
                             "inline": true,
                         },
                         {
                             "name": "Provider",
-                            "value": `**${data.value[i].provider[0].name}**`,
+                            "value": `**${data.articles[i].author||data.articles[i].rights}**`,
                             "inline": true,
                         }
                     ],
                     "color": sector.color,
                 }
-                if(data.value[i].image){
+                if(data.articles[i].media){
                     embed = {
                         ...embed,
                         "thumbnail": {
-                            "url": data.value[i].image.thumbnail.contentUrl,
+                            "url": data.articles[i].media,
                         },
                     }
                 }
                 embeds.push(embed)
             }
-        }, i * 1000)
+        }, 2000)
     })
 
     setTimeout(() => {
@@ -91,11 +89,9 @@ app.get('/', async (_req, res) => {
         }
     
         axios.post(process.env.DISCORD_URL, message)
-            .then(res => console.log(res.data))
-            .catch(err => console.log(err.code))
-    }, 20000)
-
-    res.json({ message: 'Select the news type' })
+            .then(res => console.log("data", res.data))
+            .catch(err => console.log("error", err.response))
+    }, 12000)
 })
 
 app.listen(PORT, () => {
