@@ -92,6 +92,8 @@ app.get('/', async (_req, res) => {
             .then(res => console.log("data", res.data))
             .catch(err => console.log("error", err.response))
     }, 12000)
+
+    res.json({ message: 'ok' })
 })
 
 app.listen(PORT, () => {
