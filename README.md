@@ -7,7 +7,7 @@
 <h2>External Libraries</h2>
 
 <ul>
-  <li><a href="https://rapidapi.com/microsoft-azure-org-microsoft-cognitive-services/api/bing-news-search1/">Bing News API</a> from <a href="https://rapidapi.com">rapidapi.com</a></li>
+  <li><a href="https://rapidapi.com/newscatcher-api-newscatcher-api-default/api/free-news">Free News API</a> from <a href="https://rapidapi.com">rapidapi.com</a></li>
   <li>Cron job scheduler <a href="https://cron-job.org/en/">Cron Job Org</a></li>
 </ul>
 
