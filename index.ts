@@ -25,7 +25,11 @@ const sectors = [
     },
 ]
 
-app.get('/', async (_req, res) => {
+app.get('/', (_req, res) => {
+    res.json({ message: 'ok' })
+})
+
+app.get('/news', async (_req, res) => {
 
     const embeds = [];
 
@@ -93,7 +97,7 @@ app.get('/', async (_req, res) => {
             .catch(err => console.log("error", err.response))
     }, 12000)
 
-    res.json({ message: 'ok' })
+    res.json({ message: 'News sent: OK' })
 })
 
 app.listen(PORT, () => {
